@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'polls',
     'widget_tweaks',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,16 @@ MIDDLEWARE = [
 REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
 
 ROOT_URLCONF = 'my_site.urls'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'JSON_EDITOR': True,
+    'SHOW_REQUEST_HEADERS': True,
+}
 
 TEMPLATES = [
     {

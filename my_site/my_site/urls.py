@@ -18,16 +18,29 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
 
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
 from polls import views as polls_views
 
-schema_view = get_swagger_view(title='API Documentation')
+schema_view = get_schema_view(
+    openapi.Info(
+        title="My API documentation",
+        default_version='v1',
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
+    path("docs/", schema_view.with_ui('swagger', cache_timeout=0), name="schema-json"),
+    path("doc/", schema_view.without_ui(cache_timeout=0), name="schema"),
     path("admin/", admin.site.urls),
     path("", polls_views.home, name="home"),
     path("create/", polls_views.create, name="create"),
+    path("create2/", polls_views.CreatePollAPIView.as_view(), name="create_rest"),
     path("delete/<poll_id>", polls_views.delete, name="delete"),
     path("vote/<poll_id>/", polls_views.vote, name="vote"),
-    path("results/<poll_id>/", polls_views.results, name="results"),
-    path("docs/", schema_view)
+    path("results/<poll_id>/", polls_views.results, name="results")
 ]
