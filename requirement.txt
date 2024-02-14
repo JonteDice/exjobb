@@ -1,0 +1,15 @@
+To run this project I have to take these necessary steps to ensure it works.
+
+Extra requirements:
+1. Make sure python is installed. My current python version is 3.12.0.
+2. This project is run in windows, if you are using another operating system and it's not working, you may need additional installments unique to your OS.
+3. The website used is firefox. Any other browser should work however if a problem is encountered, you might need to switch to firefox.
+
+Start website (windows):
+1. Set-ExecutionPolicy Unrestricted -Scope Process
+2.  .\env\Scripts\activate
+3. cd .\my_site\
+4. python manage.py runserver
+
+Extensions:
+Since I cant run sqlite3 db.sqlite on this project and I've not been able to hone in on the problem. I use the extension "SQLite Viewer" if I need to look inside the database.

@@ -1,10 +1,17 @@
+from django.conf.urls import url
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from rest_framework_swagger.views import get_swagger_view
+
 
 from .forms import CreatePollForm
 from .models import Poll
 
+schema_view = get_swagger_view(title='Pastebin API')
 
+urlpatterns = [
+    url("swagger/", schema_view)
+]
 
 def home(request):
     polls = Poll.objects.all()
