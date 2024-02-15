@@ -11,5 +11,7 @@ class Poll(models.Model):
     total_2 = models.IntegerField(default=0)
     total_3 = models.IntegerField(default=0)
 
+    id = models.AutoField(primary_key=True)
+
     def total(self):
         return self.total_1 + self.total_2 + self.total_3
