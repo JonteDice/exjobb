@@ -18,6 +18,8 @@ from .serializers import CreatePollSerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from django.db import connection
+
 class CreatePollAPIView(APIView):
 
     @swagger_auto_schema(responses={200: "good"})
