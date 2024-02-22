@@ -1,4 +1,5 @@
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from rest_framework.decorators import api_view, renderer_classes
@@ -91,7 +92,12 @@ def create(request):
 @api_view(['GET', 'POST'])
 @renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
 def delete(request, poll_id):
-    poll = Poll.objects.get(pk=poll_id)
+    try:
+        poll = Poll.objects.get(pk=poll_id)
+    except ValueError:
+        return HttpResponseBadRequest("Invalid poll_id. It should be a numeric value.")
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound("Poll not found")
     if request.method == 'POST':
         poll.delete()
         return redirect('home')
@@ -115,7 +121,12 @@ def delete(request, poll_id):
 @api_view(['GET', 'POST'])
 @renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
 def vote(request, poll_id):
-    poll = Poll.objects.get(pk=poll_id)
+    try:
+        poll = Poll.objects.get(pk=poll_id)
+    except ValueError:
+        return HttpResponseBadRequest("Invalid poll_id. It should be a numeric value.")
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound("Poll not found")
     
     if request.method == 'POST':
         # selected_option = (request.POST['poll'])
@@ -139,7 +150,12 @@ def vote(request, poll_id):
 @api_view(['GET'])
 @renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
 def results(request, poll_id):
-    poll = Poll.objects.get(pk=poll_id)
+    try:
+        poll = Poll.objects.get(pk=poll_id)
+    except ValueError:
+        return HttpResponseBadRequest("Invalid poll_id. It should be a numeric value.")
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound("Poll not found")
     context = {
         "poll": poll
     }
